@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { calculateDeltaFunction } from "../utils/deltaUtils";
+// import { calculateDeltaFunction } from "../utils/deltaUtils";
 import { calculateDelta2Function } from "../utils/delta2Utils";
 import { calculateGammaFunction } from "../utils/gammaUtils";
 import { calculateVegaFunction } from "../utils/vegaUtils";
+import { calculateThetaFunction } from "../utils/thetaUtils";
 
 const Hero = () => {
   const [S, setS] = useState("");
@@ -12,25 +13,27 @@ const Hero = () => {
   const [sigma, setSigma] = useState("");
   const [maturityTime, setMaturityTime] = useState("");
   const [currentTime, setCurrentTime] = useState("");
-  const [callOption, setCallOption] = useState("");
-  const [putOption, setPutOption] = useState("");
+  // const [callOption, setCallOption] = useState("");
+  // const [putOption, setPutOption] = useState("");
   const [callOption2, setCallOption2] = useState("");
   const [putOption2, setPutOption2] = useState("");
   const [gamma, setGamma] = useState("");
   const [vega, setVega] = useState("");
+  const [thetaCall, setThetaCall] = useState("");
+  const [thetaPut, setThetaPut] = useState("");
 
   const calculateFractionalDelta = (event) => {
     event.preventDefault();
 
-    const { delta1, delta2 } = calculateDeltaFunction(
-      S,
-      K,
-      R,
-      H,
-      sigma,
-      maturityTime,
-      currentTime
-    );
+    // const { delta1, delta2 } = calculateDeltaFunction(
+    //   S,
+    //   K,
+    //   R,
+    //   H,
+    //   sigma,
+    //   maturityTime,
+    //   currentTime
+    // );
 
     const { delta3, delta4 } = calculateDelta2Function(
       S,
@@ -62,20 +65,35 @@ const Hero = () => {
       currentTime
     );
 
-    console.log("The fractional delta for call option is", delta1);
-    setCallOption(delta1);
-    console.log("The fractional delta for put option is", delta2);
-    setPutOption(delta2);
+    const { thetaCall, thetaPut } = calculateThetaFunction(
+      S,
+      K,
+      R,
+      H,
+      sigma,
+      maturityTime,
+      currentTime
+    );
 
-    console.log("The fractional delta2 for call option is", delta3);
+    // console.log("The fractional delta for call option is", delta1);
+    // setCallOption(delta1);
+    // console.log("The fractional delta for put option is", delta2);
+    // setPutOption(delta2);
+
+    // console.log("The fractional delta2 for call option is", delta3);
     setCallOption2(delta3);
-    console.log("The fractional delta2 for put option is", delta4);
+    // console.log("The fractional delta2 for put option is", delta4);
     setPutOption2(delta4);
 
-    console.log("The fractional gamma for both the options is", gamma);
+    // console.log("The fractional thetaCall for call option is", thetaCall);
+    setThetaCall(thetaCall);
+    // console.log("The fractional thetaPut for put option is", thetaPut);
+    setThetaPut(thetaPut);
+
+    // console.log("The fractional gamma for both the options is", gamma);
     setGamma(gamma);
 
-    console.log("The vega for both the options is", vega);
+    // console.log("The vega for both the options is", vega);
     setVega(vega);
   };
 
@@ -202,7 +220,7 @@ const Hero = () => {
           </div>
           <div className="flex flex-col my-2">
             <label htmlFor="maturity-time" className="mb-1 font-medium">
-              Maturity Time
+              Maturity Time (in days)
             </label>
             <input
               type="number"
@@ -215,7 +233,7 @@ const Hero = () => {
           </div>
           <div className="flex flex-col my-2">
             <label htmlFor="current-time" className="mb-1 font-medium">
-              Current Time
+              Current Time (in days)
             </label>
             <input
               type="number"
@@ -243,9 +261,9 @@ const Hero = () => {
         </div>
       </form>
 
-      {callOption && putOption && (
+      {callOption2 && putOption2 && (
         <>
-          <div className="w-[80%] flex flex-col mt-4 mb-6 items-center gap-4 lg:flex-row lg:justify-center lg:items-stretch border-b border-black p-4">
+          {/* <div className="w-[80%] flex flex-col mt-4 mb-6 items-center gap-4 lg:flex-row lg:justify-center lg:items-stretch border-b border-black p-4">
             <h1 className="flex justify-center items-center font-semibold text-2xl">
               Fractional Delta:{" "}
             </h1>
@@ -269,13 +287,13 @@ const Hero = () => {
                 {putOption}
               </p>
             </section>
-          </div>
+          </div> */}
           <div className="w-[80%] flex flex-col mt-4 mb-6 items-center gap-4 lg:flex-row lg:justify-center lg:items-stretch border-b border-black p-4">
             <h1 className="flex justify-center items-center font-semibold text-2xl">
-              Fractional Delta 2:{" "}
+              Fractional Delta: {" "}
             </h1>
             <section className="p-4 flex flex-col justify-center items-center bg-gray-100 text-black rounded-md w-full lg:w-[50%]">
-              <h1 className="mb-2 font-bold text-lg">Call Option 2</h1>
+              <h1 className="mb-2 font-bold text-lg">Call Option</h1>
               <p
                 className={`text-2xl font-semibold ${
                   callOption2 < 0 ? "text-red-800" : "text-green-800"
@@ -285,7 +303,7 @@ const Hero = () => {
               </p>
             </section>
             <section className="p-4 flex flex-col justify-center items-center bg-gray-100 text-black rounded-md w-full lg:w-[50%]">
-              <h1 className="mb-2 font-bold text-lg">Put Option 2</h1>
+              <h1 className="mb-2 font-bold text-lg">Put Option</h1>
               <p
                 className={`text-2xl font-semibold ${
                   putOption2 < 0 ? "text-red-800" : "text-green-800"
@@ -345,36 +363,32 @@ const Hero = () => {
               </p>
             </section>
           </div>
-          {/* <div className="w-[80%] flex flex-col mt-4 mb-6 items-center gap-4 lg:flex-row lg:justify-center lg:items-stretch border-b border-black p-4">
+          <div className="w-[80%] flex flex-col mt-4 mb-6 items-center gap-4 lg:flex-row lg:justify-center lg:items-stretch border-b border-black p-4">
             <h1 className="flex justify-center items-center font-semibold text-2xl">
-              Fractional Gamma:{" "}
+              Fractional Theta:{" "}
             </h1>
             <section className="p-4 flex flex-col justify-center items-center bg-gray-100 text-black rounded-md w-full lg:w-[50%]">
-              <h1 className="mb-2 font-bold text-lg">Both Options</h1>
+              <h1 className="mb-2 font-bold text-lg">Call Option</h1>
               <p
                 className={`text-2xl font-semibold ${
-                  gamma < 0 ? "text-red-800" : "text-green-800"
+                  thetaCall < 0 ? "text-red-800" : "text-green-800"
                 }`}
               >
-                {gamma}
+                {thetaCall}
+              </p>
+            </section>
+            <section className="p-4 flex flex-col justify-center items-center bg-gray-100 text-black rounded-md w-full lg:w-[50%]">
+              <h1 className="mb-2 font-bold text-lg">Put Option</h1>
+              <p
+                className={`text-2xl font-semibold ${
+                  thetaPut < 0 ? "text-red-800" : "text-green-800"
+                }`}
+              >
+                {thetaPut}
               </p>
             </section>
           </div>
-          <div className="w-[80%] flex flex-col mt-4 mb-6 items-center gap-4 lg:flex-row lg:justify-center lg:items-stretch border-b border-black p-4">
-            <h1 className="flex justify-center items-center font-semibold text-2xl">
-              Vega:{" "}
-            </h1>
-            <section className="p-4 flex flex-col justify-center items-center bg-gray-100 text-black rounded-md w-full lg:w-[50%]">
-              <h1 className="mb-2 font-bold text-lg">Both Options</h1>
-              <p
-                className={`text-2xl font-semibold ${
-                  vega < 0 ? "text-red-800" : "text-green-800"
-                }`}
-              >
-                {vega}
-              </p>
-            </section>
-          </div> */}
+         
         </>
       )}
     </section>
