@@ -6,7 +6,7 @@ import Footer from './components/Footer'
 
 const Hero = lazy(() => import("./pages/Hero"));
 const About = lazy(() => import("./pages/About"));
-const Glossary = lazy(() => import("./pages/Glossary"));
+// const Glossary = lazy(() => import("./pages/Glossary"));
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Hero />} />
           <Route path="/about" element={<About />} />
-          <Route path="/glossary" element={<Glossary />} />
+          {/* <Route path="/glossary" element={<Glossary />} /> */}
         </Routes>
       </Suspense>
       <Footer />

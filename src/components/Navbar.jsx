@@ -48,7 +48,7 @@ const Navbar = () => {
                 About Us
               </NavLink>
             </li>
-            <li className="lg:px-5 py-2 block text-center hover:text-yellow-700 font-semibold">
+            {/* <li className="lg:px-5 py-2 block text-center hover:text-yellow-700 font-semibold">
               <NavLink
                 to="/glossary"
                 className="pb-1"
@@ -56,7 +56,7 @@ const Navbar = () => {
               >
                 Glossary
               </NavLink>
-            </li>
+            </li> */}
           </ul>
         </nav>
       </div>
