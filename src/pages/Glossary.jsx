@@ -37,7 +37,7 @@ const Glossary = () => {
 const data = [
   {
     title: "Welcome to FracFin",
-    desc: "Created By Nishi Motta",
+    desc: "FracFin is a Fractional Order Option Greeks Calculator, which can be used to calculate values of Fractional Delta, Fractional Gamma, Fractional Vega and Fractional Theta",
   },
 ];
 
